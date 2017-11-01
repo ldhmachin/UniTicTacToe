@@ -1,6 +1,6 @@
 ******************************************************************************
-* Program: UniTicTacToe                                     Date: 05/29/2014 *
-* Author: Chris Hamby                                                        *
+* Program: UniTicTacToe                                     Date: 01/11/2017 *
+* Author: Chris Hamby ft. Stevie Wonder                                      *
 * ========================================================================== *
 * Description:                                                               *
 *                                                                            *
@@ -12,75 +12,54 @@
 *              Chamby  Original source code completed.                       *
 *                                                                            *
 ******************************************************************************
-
     GOSUB Initialize_Variables
-    GOSUB Initialize_File_Handlers
-
 * ============================================================================
 * Main Program
 * ============================================================================
-
-    EXECUTE '!clear'
-
-    PRINT 'A simple game of Tic Tac Toe.'
-
+EXECUTE 'CLR'
+*
 * -----------------------------------------------------------------------
 * Initialize Game Loop
 * -----------------------------------------------------------------------
-
     GOSUB Empty_Board
-
     LOOP UNTIL Done DO
         GOSUB Draw_Game_Board
         GOSUB Player_Move
         GOSUB Check_For_Winner
         IF Winner THEN GOSUB End_Game
     REPEAT
-
     RETURN
-
 * ============================================================================
 * End of program
 * ============================================================================
-
-
 * =======================================================================
 Player_Move:
 * =======================================================================
-
     BEGIN CASE
         CASE Turn = 1
             Player = 'Player 1'
         CASE Turn = 2
             Player = 'Player 2'
     END CASE
-
     PRINT Player:"'s turn. Move: ":
     INPUT Move
-
     Pass = 1
-
     FOR Check = 1 TO 3
         IF Move = 'A':Check THEN Pass = 0
         IF Move = 'B':Check THEN Pass = 0
         IF Move = 'C':Check THEN Pass = 0
     NEXT Check
-
     IF Pass THEN
         PRINT 'Please try again.'
         GOSUB Player_Move
     END ELSE
         GOSUB Update_Board
     END
-
     RETURN
-
 * =======================================================================
 Update_Board:
 * =======================================================================
-
     IF Turn = 1 THEN Piece = 'X' ELSE Piece = 'O'
-
     BEGIN CASE
         CASE Move = 'A1'
             Board<1> = Piece
@@ -104,19 +83,14 @@ Update_Board:
             PRINT 'Invalid move, try again.'
             GOSUB Player_Move
     END CASE
-
     Move  = ''
     Piece = ' '
-
     RETURN
-
 * =======================================================================
 End_Game:
 * =======================================================================
-
     PRINT 'Do you want to play again? (Y/N)':
     INPUT Quit
-
     BEGIN CASE
         CASE Quit = 'Y'
             GOSUB Empty_Board
@@ -126,29 +100,22 @@ End_Game:
         CASE 1
             GOSUB End_Game
     END CASE
-
     RETURN
-
 * =======================================================================
 Empty_Board:
 * =======================================================================
-
     FOR X = 1 TO 9
         Board<X> = ' '
     NEXT X
-
     RETURN
-
 * =======================================================================
 Draw_Game_Board:
 * =======================================================================
-
-    EXECUTE '!clear'
-
+EXECUTE 'CLR'
+PRINT 'A simple game of Tic Tac Toe.'
     FOR X = 1 TO 3
         Row<X> = Board<X>:' | ':Board<X+3>:' | ':Board<X+6>:' '
     NEXT X
-
     PRINT '  A | B | C '
     PRINT '1 ':Row<1>
     PRINT ' ---+---+---'
@@ -156,43 +123,34 @@ Draw_Game_Board:
     PRINT ' ---+---+---'
     PRINT '3 ':Row<3>
     PRINT '    |   |   '
-
     RETURN
-
 * =======================================================================
 Check_For_Winner:
 * =======================================================================
-
     IF Board<1> = 'X' AND Board<2> = 'X' AND Board<3> = 'X' THEN Winner = 'X' ; * Top left to bottom left
     IF Board<1> = 'O' AND Board<2> = 'O' AND Board<3> = 'O' THEN Winner = 'O'
-
     IF Board<1> = 'X' AND Board<5> = 'X' AND Board<9> = 'X' THEN Winner = 'X' ; * Top left to bottom right
     IF Board<1> = 'O' AND Board<5> = 'O' AND Board<9> = 'O' THEN Winner = 'O'
-
     IF Board<1> = 'X' AND Board<4> = 'X' AND Board<7> = 'X' THEN Winner = 'X' ; * Top left to top right
     IF Board<1> = 'O' AND Board<4> = 'O' AND Board<7> = 'O' THEN Winner = 'O'
     
     IF Board<2> = 'X' AND Board<5> = 'X' AND Board<8> = 'X' THEN Winner = 'X' ; * Left center to right center
     IF Board<2> = 'O' AND Board<5> = 'O' AND Board<8> = 'O' THEN Winner = 'O'
-
     IF Board<4> = 'X' AND Board<5> = 'X' AND Board<6> = 'X' THEN Winner = 'X' ; * Top center to bottom center
     IF Board<4> = 'O' AND Board<5> = 'O' AND Board<6> = 'O' THEN Winner = 'O'
-
     IF Board<3> = 'X' AND Board<5> = 'X' AND Board<7> = 'X' THEN Winner = 'X' ; * Bottom left to top right
     IF Board<3> = 'O' AND Board<5> = 'O' AND Board<7> = 'O' THEN Winner = 'O'
-
     IF Board<3> = 'X' AND Board<6> = 'X' AND Board<9> = 'X' THEN Winner = 'X' ; * Bottom left to Bottom right
     IF Board<3> = 'O' AND Board<6> = 'O' AND Board<9> = 'O' THEN Winner = 'O'
-
     IF Winner THEN
-        EXECUTE '!clear'
+EXECUTE 'CLR'
+*
         PRINT 'The winner is: ':IF Winner = 'X' THEN 'Player 1' ELSE 'Player 2'
     END ELSE
         Test = 0
         FOR X = 1 TO 9
             IF Board<X> THEN Test += 1
         NEXT X
-
         IF Test = 8 THEN
             IF Turn = 1 THEN Piece = 'O' ELSE Piece = 'X'
             FOR X = 1 TO 9
@@ -202,17 +160,14 @@ Check_For_Winner:
         END
         IF Turn = 1 THEN Turn = 2 ELSE Turn = 1
     END
-
     RETURN
-
 * =======================================================================
 Initialize_Variables:
 * =======================================================================
-
     Board = ''
+    Row = ''
     Check = ''
     Done  = 0
     Turn  = 1
     Test  = ''
-
     RETURN
